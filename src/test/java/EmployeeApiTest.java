@@ -1,24 +1,16 @@
+import com.aventstack.extentreports.ExtentTest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EmployeeApiTest {
-    private static ExtentReports extent;
-    private static ExtentTest test;
+public class EmployeeApiTest extends BaseTest{
+    private ExtentTest test;
 
-    @BeforeAll
-    public static void setup() {
-        ExtentSparkReporter sparkReporter = new ExtentSparkReporter("target/SparkReport.html");
-        extent = new ExtentReports();
-        extent.attachReporter(sparkReporter);
-
+    @BeforeEach
+    public void setUpTest() {
         test = extent.createTest("Employee API Test", "Validar la creación de un nuevo empleado");
     }
 
@@ -51,10 +43,5 @@ public class EmployeeApiTest {
         assertEquals("Developer", job);
 
         test.pass("El empleado se creó correctamente con ID: " + id);
-    }
-
-    @AfterAll
-    public static void tearDown() {
-        extent.flush();
     }
 }
