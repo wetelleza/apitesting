@@ -1,26 +1,48 @@
-# Employee API Testing
+# Pruebas de API de Empleados
 
-Este proyecto tiene como objetivo realizar pruebas de la API para la funcionalidad de creación de empleados utilizando RestAssured con Gradle.
+Este proyecto contiene un conjunto de pruebas que valida las funcionalidades de la API de empleados (`https://reqres.in/api`). Se utilizan diferentes casos de prueba para comprobar los comportamientos bajo diferentes escenarios, incluyendo la creación de empleados, pruebas negativas, carga y validación de campos generados automáticamente.
 
 ## Descripción
 
-El propósito de este proyecto es verificar que la funcionalidad de creación de empleados a través de la API funcione correctamente según los criterios de aceptación establecidos. La API permite enviar solicitudes POST para crear un nuevo empleado y devolver el ID del empleado creado.
+### Casos de Prueba:
 
-### Funcionalidades Probadas
-- **Crear Empleado Válido:** Envía una solicitud POST con datos válidos para un nuevo empleado y valida la respuesta.
-- **Verificar Código de Estado 201:** Asegura que el código de estado HTTP devuelto sea `201` (Creado).
-- **Validación del ID:** Confirma que el ID devuelto es un número entero positivo.
-- **Verificación de Datos Coincidentes:** Comprueba que el `name` y `job` en la respuesta coincidan con los enviados en la solicitud.
+1. **EmployeeApiTest:**
+   - **Descripción:** Probar la creación de un nuevo empleado con los campos `name` y `job`.
+   - **Criterios de Aceptación:**
+      - El código de estado debe ser 201 (Creado).
+      - El ID del empleado debe ser positivo y se debe devolver el nombre y trabajo proporcionados.
+   - **Ejemplo:** Verifica que el ID generado es válido y coincide con los datos de entrada.
 
-## Configuración
+2. **EmployeeApiNegativeTest:**
+   - **Descripción:** Probar la creación de un empleado cuando falta el campo `job`.
+   - **Criterios de Aceptación:**
+      - El código de estado debe ser 201.
+      - El campo `job` debería ser nulo o estar ausente en la respuesta.
+   - **Ejemplo:** Verifica que el campo `job` no está presente y que el campo `id` es positivo.
 
-Para ejecutar el proyecto, asegúrate de tener lo siguiente:
+3. **EmployeeApiLoadTest:**
+   - **Descripción:** Probar cómo responde la API bajo una carga de 100 solicitudes para la creación de empleados.
+   - **Criterios de Aceptación:**
+      - El código de estado para todas las solicitudes debe ser 201.
+      - Cada solicitud debe devolver un ID único y una fecha de creación (`createdAt`).
+   - **Ejemplo:** Valida que todas las solicitudes se procesan con éxito bajo carga.
 
-1. **Java Development Kit (JDK):** Versión 8 o superior.
-2. **Gradle:** Instalado en tu sistema.
+4. **EmployeeApiCreatedAtTest:**
+   - **Descripción:** Probar que el campo `createdAt` se genera automáticamente y no se puede modificar.
+   - **Criterios de Aceptación:**
+      - El campo `createdAt` generado no debe coincidir con el valor proporcionado en el cuerpo de solicitud.
+   - **Ejemplo:** Valida que `createdAt` es diferente al valor proporcionado y tiene un formato válido.
 
-### Instalación
+## Tecnologías Usadas
 
-1. **Clona el repositorio:**
+- **Java:** Lenguaje principal de desarrollo.
+- **JUnit 5:** Framework de pruebas.
+- **RestAssured:** Para realizar pruebas de la API.
+- **ExtentReports:** Para generar informes detallados.
+
+## Configuración y Ejecución
+
+1. **Clonar el Proyecto:**
+   - Clona este repositorio con:
    ```bash
    git clone https://github.com/tu-usuario/employee-api-testing.git
